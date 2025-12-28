@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>کافی‌نت آنلاین | CafeNet Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset و تنظیمات پایه */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #2A9D8F;
+            --primary-dark: #21867A;
+            --secondary: #E76F51;
+            --dark: #264653;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --success: #28A745;
+            --warning: #FFC107;
+            --danger: #DC3545;
+            --shadow: 0 3px 10px rgba(0,0,0,0.1);
+            --radius: 10px;
+            --safe-area: env(safe-area-inset-bottom, 0px);
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.5;
+            overflow-x: hidden;
+            padding-bottom: calc(60px + var(--safe-area));
+        }
+        
+        /* بهبود لمسی برای موبایل */
+        button, .nav-link, input[type="checkbox"] {
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+        
+        /* نوار ناوبری موبایل */
+        nav {
+            background: white;
+            padding: 0.8rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+        
+        .logo i {
+            color: var(--secondary);
+            font-size: 1.3rem;
+        }
+        
+        /* منوی همبرگری برای موبایل */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            padding: 5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--gray);
+            padding: 8px 5px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            min-width: 65px;
+            transition: all 0.2s;
+        }
+        
+        .nav-link i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        
+        .nav-link span {
+            font-size: 0.7rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .nav-link .badge {
+            position: absolute;
+            top: -5px;
+            right: 5px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* بخش‌های اصلی */
+        .section {
+            display: none;
+            padding: 1rem;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* صفحه اصلی */
+        .hero {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+        
+        .hero p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            padding: 0.9rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-primary:active {
+            background: #d65c3e;
+            transform: scale(0.98);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* کارت‌های کافی‌نت - موبایل */
+        .cafes-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .cafe-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+            border: 1px solid #eee;
+        }
+        
+        .cafe-card:active {
+            transform: scale(0.99);
+        }
+        
+        .cafe-header {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cafe-rating {
+            background: var(--warning);
+            color: var(--dark);
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .cafe-body {
+            padding: 1rem;
+        }
+        
+        .cafe-body p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .cafe-body i {
+            color: var(--primary);
+            margin-top: 2px;
+            min-width: 18px;
+        }
+        
+        .cafe-services {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin: 1rem 0;
+        }
+        
+        .service-tag {
+            background: var(--light);
+            padding: 0.3rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            border: 1px solid #ddd;
+        }
+        
+        .cafe-footer {
+            padding: 0.8rem 1rem;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cafe-footer button {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            min-width: 80px;
+        }
+        
+        /* فرم‌ها در موبایل */
+        .form-container {
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        /* بهبود لمسی برای input ها */
+        input, textarea {
+            font-size: 16px; /* جلوگیری از زوم در iOS */
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* سبد خرید موبایل */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            transition: right 0.3s ease;
+            z-index: 2000;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cart-sidebar.active {
+            right: 0;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-total {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--light);
+            text-align: center;
+            color: var(--dark);
+        }
+        
+        /* پنل مدیریت موبایل */
+        .orders-list {
+            margin-top: 1.5rem;
+        }
+        
+        .order-card {
+            background: white;
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 0.8rem;
+            box-shadow: var(--shadow);
+            border-right: 4px solid var(--warning);
+        }
+        
+        .order-card.completed {
+            border-right-color: var(--success);
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+        
+        .order-actions button {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.85rem;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        /* نوار پایین موبایل */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.5rem 0.5rem calc(0.5rem + var(--safe-area));
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            height: 60px;
+        }
+        
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--gray);
+            padding: 0.3rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            min-width: 65px;
+            transition: all 0.2s;
+        }
+        
+        .mobile-nav-item i {
+            font-size: 1.3rem;
+            margin-bottom: 3px;
+        }
+        
+        .mobile-nav-item.active {
+            color: var(--primary);
+            background: rgba(42, 157, 143, 0.1);
+        }
+        
+        .mobile-nav-item .badge {
+            position: absolute;
+            top: -2px;
+            right: 8px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* اعلان‌ها موبایل */
+        .notification {
+            position: fixed;
+            bottom: 70px;
+            right: 10px;
+            left: 10px;
+            background: var(--success);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            z-index: 3000;
+            animation: slideInUp 0.3s ease;
+            display: none;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes slideInUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* مودال موبایل برای خدمات */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 4000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: white;
+            width: 100%;
+            max-height: 70vh;
+            border-radius: 20px 20px 0 0;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+            overflow-y: auto;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-services {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+        }
+        
+        /* فوتر موبایل */
+        footer {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
+            background: var(--dark);
+            color: white;
+            font-size: 0.85rem;
+        }
+        
+        /* استایل برای تبلت و دسکتاپ */
+        @media (min-width: 768px) {
+            body {
+                padding-bottom: 0;
+            }
+            
+            nav {
+                padding: 1rem 2rem;
+            }
+            
+            .logo {
+                font-size: 1.3rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-link {
+                min-width: 80px;
+                font-size: 0.85rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+                max-width: 1200px;
+            }
+            
+            .hero {
+                padding: 3rem 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .btn {
+                width: auto;
+            }
+            
+            .cafes-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .cart-sidebar {
+                width: 350px;
+                right: -400px;
+            }
+            
+            .cart-sidebar.active {
+                right: 0;
+            }
+            
+            .mobile-bottom-nav {
+                display: none;
+            }
+            
+            .notification {
+                right: 20px;
+                left: auto;
+                width: 300px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .cafes-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        /* لنداسکیپ موبایل */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero {
+                padding: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: row;
+            }
+            
+            .btn {
+                padding: 0.6rem 1rem;
+            }
+            
+            .mobile-bottom-nav {
+                height: 50px;
+            }
+            
+            .mobile-nav-item {
+                font-size: 0.7rem;
+            }
+            
+            .mobile-nav-item i {
+                font-size: 1rem;
+            }
+        }
+        
+        /* بهبود نمایش در iOS */
+        @supports (-webkit-touch-callout: none) {
+            .cart-sidebar, .modal {
+                padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+            }
+            
+            .mobile-bottom-nav {
+                padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+            }
+        }
+        
+        /* بارگذاری اسکلت */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: var(--radius);
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* اسکرول سفارشی برای موبایل */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        /* جلوگیری از انتخاب متن در دکمه‌ها */
+        .btn, .nav-link, .mobile-nav-item {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- نوار ناوبری دسکتاپ -->
+    <nav class="desktop-nav">
+        <div class="logo">
+            <i class="fas fa-network-wired"></i>
+            <span>کافی‌نت آنلاین</span>
+        </div>
+        <div class="nav-links">
+            <a class="nav-link active" onclick="showSection('home')">
+                <i class="fas fa-home"></i>
+                <span>صفحه اصلی</span>
+            </a>
+            <a class="nav-link" onclick="showSection('order')">
+                <i class="fas fa-shopping-cart"></i>
+                <span>سفارش</span>
+            </a>
+            <a class="nav-link" onclick="showSection('register')">
+                <i class="fas fa-store"></i>
+                <span>ثبت کافی‌نت</span>
+            </a>
+            <a class="nav-link" onclick="showSection('admin')">
+                <i class="fas fa-user-cog"></i>
+                <span>مدیریت</span>
+            </a>
+            <a class="nav-link" onclick="toggleCart()">
+                <i class="fas fa-shopping-basket"></i>
+                <span>سبد خرید</span>
+                <span id="cart-count-desktop" class="badge">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- بخش‌های اصلی -->
+    <main>
+        <!-- صفحه اصلی -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>کافی‌نت آنلاین، خدمات کامپیوتری در دسترس شما</h1>
+                <p>پرینت، اسکن، کپی، فکس و خدمات اینترنتی را از نزدیک‌ترین کافی‌نت محل سفارش دهید</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="showSection('order')">
+                        <i class="fas fa-search"></i> پیدا کردن کافی‌نت
+                    </button>
+                    <button class="btn btn-secondary" onclick="showSection('register')">
+                        <i class="fas fa-plus-circle"></i> ثبت کافی‌نت
+                    </button>
+                </div>
+            </div>
+            
+            <div id="cafes-list" class="cafes-container">
+                <!-- کافی‌نت‌ها توسط JS لود می‌شوند -->
+            </div>
+        </section>
+
+        <!-- سفارش خدمات -->
+        <section id="order" class="section">
+            <h2 style="margin-bottom: 1.2rem; font-size: 1.3rem;">
+                <i class="fas fa-search-location"></i> جستجوی کافی‌نت
+            </h2>
+            
+            <div class="form-container">
+                <div class="form-group">
+                    <label>موقعیت خود را وارد کنید:</label>
+                    <input type="text" id="location-search" placeholder="مثلاً: تهران، میدان انقلاب" 
+                           onkeyup="searchCafes()" style="font-size: 16px;">
+                </div>
+                
+                <div class="form-group">
+                    <label>خدمات مورد نیاز:</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="پرینت رنگی" checked> پرینت رنگی
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="پرینت سیاه‌وسفید"> پرینت سیاه‌وسفید
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="اسکن"> اسکن
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="کپی"> کپی
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="اینترنت"> اینترنت
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="فکس"> فکس
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="بازی آنلاین"> بازی آنلاین
+                        </label>
+                    </div>
+                </div>
+                
+                <div id="search-results" class="cafes-container">
+                    <!-- نتایج جستجو -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ثبت کافی‌نت -->
+        <section id="register" class="section">
+            <h2 style="margin-bottom: 1.2rem; font-size: 1.3rem;">
+                <i class="fas fa-store-alt"></i> ثبت کافی‌نت جدید
+            </h2>
+            
+            <div class="form-container">
+                <form id="cafe-form">
+                    <div class="form-group">
+                        <label>نام کافی‌نت:</label>
+                        <input type="text" id="cafe-name" required style="font-size: 16px;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>آدرس دقیق:</label>
+                        <textarea id="cafe-address" rows="2" required style="font-size: 16px;"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>شماره تماس:</label>
+                        <input type="tel" id="cafe-phone" required style="font-size: 16px;" 
+                               pattern="[0-9]{10,11}" placeholder="09123456789">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>ساعت کاری:</label>
+                        <input type="text" id="cafe-hours" placeholder="مثلاً: ۸ صبح تا ۱۰ شب" required style="font-size: 16px;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>قیمت پایه خدمات (تومان):</label>
+                        <input type="number" id="cafe-price" value="5000" required style="font-size: 16px;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>خدمات ارائه شده:</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="services" value="پرینت رنگی" checked> پرینت رنگی
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="services" value="پرینت سیاه‌وسفید" checked> پرینت سیاه‌وسفید
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="services" value="اسکن"> اسکن
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="services" value="کپی"> کپی
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="services" value="فکس"> فکس
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="services" value="اینترنت"> اینترنت
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="services" value="بازی آنلاین"> بازی آنلاین
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                        <i class="fas fa-check-circle"></i> ثبت کافی‌نت
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- پنل مدیریت -->
+        <section id="admin" class="section">
+            <h2 style="margin-bottom: 1.2rem; font-size: 1.3rem;">
+                <i class="fas fa-tachometer-alt"></i> پنل مدیریت کافی‌نت
+            </h2>
+            
+            <div class="form-container">
+                <div class="form-group">
+                    <label>شناسه کافی‌نت خود را وارد کنید:</label>
+                    <input type="text" id="admin-cafe-id" placeholder="شناسه کافی‌نت" style="font-size: 16px;">
+                    <button class="btn btn-primary" onclick="loadCafeOrders()" style="width: 100%; margin-top: 1rem;">
+                        <i class="fas fa-sync"></i> بارگذاری سفارشات
+                    </button>
+                </div>
+                
+                <div id="admin-orders" class="orders-list">
+                    <!-- سفارشات کافی‌نت -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- سبد خرید موبایل -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-basket"></i> سبد خرید شما</h3>
+            <button class="btn btn-secondary" onclick="toggleCart()" style="padding: 0.5rem;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div id="cart-items" class="cart-items">
+            <!-- آیتم‌های سبد خرید -->
+        </div>
+        
+        <div class="cart-total">
+            مجموع: <span id="cart-total-price">0</span> تومان
+        </div>
+        
+        <button class="btn btn-primary" onclick="checkout()" style="width: 100%; margin-top: 1rem;">
+            <i class="fas fa-paper-plane"></i> ثبت سفارش نهایی
+        </button>
+    </div>
+
+    <!-- مودال خدمات برای موبایل -->
+    <div id="service-modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">انتخاب خدمات</h3>
+                <button onclick="closeModal()" style="background: none; border: none; font-size: 1.2rem; color: var(--gray);">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="modal-services" class="modal-services">
+                <!-- خدمات نمایش داده می‌شود -->
+            </div>
+        </div>
+    </div>
+
+    <!-- نوار پایین موبایل -->
+    <div class="mobile-bottom-nav">
+        <a class="mobile-nav-item active" onclick="showSection('home')">
+            <i class="fas fa-home"></i>
+            <span>خانه</span>
+        </a>
+        <a class="mobile-nav-item" onclick="showSection('order')">
+            <i class="fas fa-search"></i>
+            <span>جستجو</span>
+        </a>
+        <a class="mobile-nav-item" onclick="showSection('register')">
+            <i class="fas fa-store"></i>
+            <span>ثبت</span>
+        </a>
+        <a class="mobile-nav-item" onclick="showSection('admin')">
+            <i class="fas fa-cog"></i>
+            <span>مدیریت</span>
+        </a>
+        <a class="mobile-nav-item" onclick="toggleCart()">
+            <i class="fas fa-shopping-basket"></i>
+            <span>سبد</span>
+            <span id="cart-count-mobile" class="badge">0</span>
+        </a>
+    </div>
+
+    <!-- اعلان موبایل -->
+    <div id="notification" class="notification"></div>
+
+    <!-- فوتر -->
+    <footer>
+        <p>کافی‌نت آنلاین - ارتباط مستقیم بین کاربران و کافی‌نت‌ها</p>
+        <p style="margin-top: 0.8rem; opacity: 0.8; font-size: 0.8rem;">
+            این پروژه نمونه با HTML, CSS, JavaScript ساخته شده است
+        </p>
+    </footer>
+
+    <script>
+        // داده‌های نمونه
+        let cafes = JSON.parse(localStorage.getItem('cafenets')) || [
+            {
+                id: 1,
+                name: "کافی‌نت نور",
+                address: "تهران، میدان انقلاب، خیابان کارگر شمالی",
+                phone: "021-66778899",
+                hours: "۸ صبح تا ۱۱ شب",
+                price: 5000,
+                services: ["پرینت رنگی", "پرینت سیاه‌وسفید", "اسکن", "اینترنت"],
+                rating: 4.5,
+                orders: 42
+            },
+            {
+                id: 2,
+                name: "نت‌کافی پاسارگاد",
+                address: "تهران، سعادت آباد، بلوار پاکنژاد",
+                phone: "021-22334455",
+                hours: "۲۴ ساعته",
+                price: 7000,
+                services: ["پرینت رنگی", "اسکن", "کپی", "فکس", "بازی آنلاین"],
+                rating: 4.8,
+                orders: 87
+            }
+        ];
+        
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentCafeId = null;
+        let currentSection = 'home';
+
+        // نمایش بخش‌های مختلف
+        function showSection(sectionId) {
+            currentSection = sectionId;
+            
+            // مخفی کردن همه بخش‌ها
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // غیرفعال کردن همه لینک‌های ناوبری
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.mobile-nav-item').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // نمایش بخش مورد نظر
+            document.getElementById(sectionId).classList.add('active');
+            
+            // فعال کردن لینک مربوطه در نوار پایین
+            const navItems = document.querySelectorAll('.mobile-nav-item');
+            const sectionIndex = ['home', 'order', 'register', 'admin'].indexOf(sectionId);
+            if (navItems[sectionIndex]) {
+                navItems[sectionIndex].classList.add('active');
+            }
+            
+            // فعال کردن لینک مربوطه در نوار بالایی
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.querySelector('span').textContent === getSectionName(sectionId)) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // بستن سبد خرید
+            document.getElementById('cart-sidebar').classList.remove('active');
+            document.getElementById('service-modal').classList.remove('active');
+            
+            // بارگذاری محتوا
+            if (sectionId === 'home') loadHomePage();
+            if (sectionId === 'order') loadOrderPage();
+            
+            // اسکرول به بالا
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function getSectionName(sectionId) {
+            const names = {
+                'home': 'صفحه اصلی',
+                'order': 'سفارش',
+                'register': 'ثبت کافی‌نت',
+                'admin': 'مدیریت'
+            };
+            return names[sectionId] || '';
+        }
+
+        // بارگذاری صفحه اصلی
+        function loadHomePage() {
+            const container = document.getElementById('cafes-list');
+            container.innerHTML = '';
+            
+            // ایجاد اسکلت‌های بارگذاری
+            for (let i = 0; i < 4; i++) {
+                const skeleton = document.createElement('div');
+                skeleton.className = 'cafe-card skeleton';
+                skeleton.style.height = '200px';
+                container.appendChild(skeleton);
+            }
+            
+            // بارگذاری واقعی با تأخیر
+            setTimeout(() => {
+                container.innerHTML = '';
+                
+                if (cafes.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; grid-column: 1/-1; padding: 3rem; color: var(--gray);">
+                            <i class="fas fa-store-slash" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                            <p>هنوز کافی‌نتی ثبت نشده است</p>
+                            <button class="btn btn-primary" onclick="showSection('register')" style="margin-top: 1rem;">
+                                اولین کافی‌نت را ثبت کنید
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                cafes.forEach(cafe => {
+                    const cafeCard = document.createElement('div');
+                    cafeCard.className = 'cafe-card';
+                    cafeCard.innerHTML = `
+                        <div class="cafe-header">
+                            <h3 style="font-size: 1.1rem;">${cafe.name}</h3>
+                            <div class="cafe-rating">${cafe.rating} ★</div>
+                        </div>
+                        <div class="cafe-body">
+                            <p><i class="fas fa-map-marker-alt"></i> ${cafe.address}</p>
+                            <p><i class="fas fa-clock"></i> ${cafe.hours}</p>
+                            <p><i class="fas fa-phone"></i> ${cafe.phone}</p>
+                            <div class="cafe-services">
+                                ${cafe.services.slice(0, 3).map(service => 
+                                    `<span class="service-tag">${service}</span>`
+                                ).join('')}
+                                ${cafe.services.length > 3 ? 
+                                    `<span class="service-tag">+${cafe.services.length - 3}</span>` : ''
+                                }
+                            </div>
+                        </div>
+                        <div class="cafe-footer">
+                            <span style="font-size: 0.9rem;">از ${cafe.price.toLocaleString()} تومان</span>
+                            <button class="btn btn-primary" onclick="selectCafe(${cafe.id})">
+                                <i class="fas fa-cart-plus"></i> سفارش
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(cafeCard);
+                });
+            }, 500);
+            
+            updateCartCount();
+        }
+
+        // بارگذاری صفحه سفارش
+        function loadOrderPage() {
+            const container = document.getElementById('search-results');
+            
+            // ایجاد اسکلت‌های بارگذاری
+            container.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                const skeleton = document.createElement('div');
+                skeleton.className = 'cafe-card skeleton';
+                skeleton.style.height = '180px';
+                container.appendChild(skeleton);
+            }
+            
+            // نمایش همه کافی‌نت‌ها با تأخیر
+            setTimeout(() => {
+                container.innerHTML = '';
+                
+                if (cafes.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; color: var(--gray);">
+                            <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p>کافی‌نتی یافت نشد</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                cafes.forEach(cafe => {
+                    const cafeCard = createCafeCard(cafe);
+                    container.appendChild(cafeCard);
+                });
+            }, 500);
+        }
+
+        // جستجوی کافی‌نت‌ها
+        function searchCafes() {
+            const searchTerm = document.getElementById('location-search').value.toLowerCase();
+            const checkboxes = document.querySelectorAll('#order input[type="checkbox"]:checked');
+            const selectedServices = Array.from(checkboxes).map(cb => cb.value);
+            
+            const container = document.getElementById('search-results');
+            container.innerHTML = '';
+            
+            const filteredCafes = cafes.filter(cafe => {
+                // فیلتر بر اساس موقعیت
+                const locationMatch = cafe.address.toLowerCase().includes(searchTerm) || 
+                                     cafe.name.toLowerCase().includes(searchTerm);
+                
+                // فیلتر بر اساس خدمات
+                const serviceMatch = selectedServices.length === 0 || 
+                    selectedServices.every(service => cafe.services.includes(service));
+                
+                return locationMatch && serviceMatch;
+            });
+            
+            if (filteredCafes.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: var(--gray);">
+                        <i class="fas fa-search" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                        <p>کافی‌نتی با این مشخصات یافت نشد</p>
+                        <button class="btn btn-secondary" onclick="clearSearch()" style="margin-top: 1rem;">
+                            حذف فیلترها
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredCafes.forEach(cafe => {
+                const cafeCard = createCafeCard(cafe);
+                container.appendChild(cafeCard);
+            });
+        }
+        
+        function clearSearch() {
+            document.getElementById('location-search').value = '';
+            document.querySelectorAll('#order input[type="checkbox"]').forEach(cb => cb.checked = true);
+            searchCafes();
+        }
+
+        // ایجاد کارت کافی‌نت
+        function createCafeCard(cafe) {
+            const div = document.createElement('div');
+            div.className = 'cafe-card';
+            div.innerHTML = `
+                <div class="cafe-header">
+                    <h3 style="font-size: 1.1rem;">${cafe.name}</h3>
+                    <div class="cafe-rating">${cafe.rating} ★</div>
+                </div>
+                <div class="cafe-body">
+                    <p><i class="fas fa-map-marker-alt"></i> ${cafe.address}</p>
+                    <p><i class="fas fa-clock"></i> ${cafe.hours}</p>
+                    <div class="cafe-services">
+                        ${cafe.services.slice(0, 4).map(service => 
+                            `<span class="service-tag">${service}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+                <div class="cafe-footer">
+                    <span style="font-size: 0.9rem;">از ${cafe.price.toLocaleString()} تومان</span>
+                    <button class="btn btn-primary" onclick="selectCafe(${cafe.id})">
+                        <i class="fas fa-cart-plus"></i> انتخاب
+                    </button>
+                </div>
+            `;
+            return div;
+        }
+
+        // انتخاب کافی‌نت برای سفارش
+        function selectCafe(cafeId) {
+            currentCafeId = cafeId;
+            const cafe = cafes.find(c => c.id === cafeId);
+            
+            // نمایش مودال خدمات در موبایل
+            if (window.innerWidth <= 768) {
+                showServiceModal(cafe);
+            } else {
+                // نمایش سنتی در دسکتاپ
+                const serviceList = cafe.services.map(service => 
+                    `<button class="btn btn-secondary" onclick="addToCart('${service}', ${cafeId}, ${cafe.price})" 
+                     style="margin: 0.3rem; padding: 0.5rem 1rem; font-size: 0.9rem;">
+                        <i class="fas fa-plus"></i> ${service} (${cafe.price.toLocaleString()} تومان)
+                    </button>`
+                ).join('');
+                
+                showNotification(`خدمات ${cafe.name}:`, 3000);
+                setTimeout(() => {
+                    showNotification(serviceList, 8000, true);
+                }, 100);
+            }
+        }
+        
+        // نمایش مودال خدمات در موبایل
+        function showServiceModal(cafe) {
+            document.getElementById('modal-title').textContent = `خدمات ${cafe.name}`;
+            
+            const modalServices = document.getElementById('modal-services');
+            modalServices.innerHTML = cafe.services.map(service => `
+                <button class="btn btn-secondary" onclick="addToCartFromModal('${service}', ${cafe.id}, ${cafe.price})" 
+                        style="padding: 1rem; text-align: center; border-radius: 10px;">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">
+                        ${getServiceIcon(service)}
+                    </div>
+                    <div style="font-size: 0.85rem; margin-bottom: 0.3rem;">${service}</div>
+                    <div style="font-size: 0.8rem; color: var(--primary);">
+                        ${cafe.price.toLocaleString()} تومان
+                    </div>
+                </button>
+            `).join('');
+            
+            document.getElementById('service-modal').classList.add('active');
+        }
+        
+        function getServiceIcon(service) {
+            const icons = {
+                'پرینت رنگی': '🖨️',
+                'پرینت سیاه‌وسفید': '🖨️',
+                'اسکن': '📄',
+                'کپی': '📋',
+                'فکس': '📠',
+                'اینترنت': '🌐',
+                'بازی آنلاین': '🎮'
+            };
+            return icons[service] || '📱';
+        }
+        
+        function addToCartFromModal(service, cafeId, price) {
+            addToCart(service, cafeId, price);
+            closeModal();
+        }
+        
+        function closeModal(event) {
+            if (event && event.target.id === 'service-modal') {
+                document.getElementById('service-modal').classList.remove('active');
+            } else if (!event) {
+                document.getElementById('service-modal').classList.remove('active');
+            }
+        }
+
+        // افزودن به سبد خرید
+        function addToCart(service, cafeId, price) {
+            const cafe = cafes.find(c => c.id === cafeId);
+            
+            // بررسی آیا این سرویس از قبل در سبد هست
+            const existingIndex = cart.findIndex(item => 
+                item.service === service && item.cafeId === cafeId);
+            
+            if (existingIndex > -1) {
+                // افزایش تعداد
+                cart[existingIndex].quantity += 1;
+            } else {
+                // اضافه کردن جدید
+                cart.push({
+                    id: Date.now(),
+                    service,
+                    cafeId,
+                    cafeName: cafe.name,
+                    price,
+                    quantity: 1,
+                    timestamp: new Date().toLocaleTimeString('fa-IR')
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartDisplay();
+            
+            // نمایش تأیید با ویبره در موبایل
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+            
+            showNotification(`"${service}" به سبد خرید اضافه شد`);
+        }
+
+        // نمایش/مخفی کردن سبد خرید
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            sidebar.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                updateCartDisplay();
+                // بستن مودال دیگر
+                document.getElementById('service-modal').classList.remove('active');
+            }
+        }
+
+        // بروزرسانی نمایش سبد خرید
+        function updateCartDisplay() {
+            const container = document.getElementById('cart-items');
+            const totalPrice = document.getElementById('cart-total-price');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: var(--gray);">
+                        <i class="fas fa-shopping-basket" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                        <p>سبد خرید شما خالی است</p>
+                    </div>
+                `;
+                totalPrice.textContent = '0';
+                return;
+            }
+            
+            let itemsHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                itemsHTML += `
+                    <div class="cart-item">
+                        <div style="flex: 1;">
+                            <div style="font-weight: bold; font-size: 0.95rem;">${item.service}</div>
+                            <div style="font-size: 0.8rem; color: var(--gray); margin-top: 3px;">
+                                ${item.cafeName}
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+                                <button onclick="updateQuantity(${index}, -1)" 
+                                        style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--gray); background: white; font-size: 1.2rem;">
+                                    −
+                                </button>
+                                <span style="font-weight: bold;">${item.quantity}</span>
+                                <button onclick="updateQuantity(${index}, 1)" 
+                                        style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--gray); background: white; font-size: 1.2rem;">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                        <div style="text-align: left; min-width: 80px;">
+                            <div style="font-weight: bold; color: var(--primary);">
+                                ${(item.price * item.quantity).toLocaleString()} تومان
+                            </div>
+                            <button onclick="removeFromCart(${index})" 
+                                    style="background: none; border: none; color: var(--danger); cursor: pointer; margin-top: 8px; padding: 5px;">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = itemsHTML;
+            totalPrice.textContent = total.toLocaleString();
+        }
+
+        // به‌روزرسانی تعداد
+        function updateQuantity(index, change) {
+            if (cart[index].quantity + change < 1) {
+                removeFromCart(index);
+                return;
+            }
+            
+            cart[index].quantity += change;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartDisplay();
+        }
+
+        // حذف از سبد خرید
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartDisplay();
+            showNotification('آیتم از سبد خرید حذف شد');
+        }
+
+        // بروزرسانی تعداد آیتم‌های سبد خرید
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count-desktop').textContent = count;
+            document.getElementById('cart-count-mobile').textContent = count;
+        }
+
+        // ثبت فرم کافی‌نت
+        document.getElementById('cafe-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const serviceCheckboxes = document.querySelectorAll('input[name="services"]:checked');
+            const services = Array.from(serviceCheckboxes).map(cb => cb.value);
+            
+            const newCafe = {
+                id: Date.now(),
+                name: document.getElementById('cafe-name').value,
+                address: document.getElementById('cafe-address').value,
+                phone: document.getElementById('cafe-phone').value,
+                hours: document.getElementById('cafe-hours').value,
+                price: parseInt(document.getElementById('cafe-price').value),
+                services: services,
+                description: document.getElementById('cafe-description')?.value || '',
+                rating: 5.0,
+                orders: 0
+            };
+            
+            cafes.push(newCafe);
+            localStorage.setItem('cafenets', JSON.stringify(cafes));
+            
+            // ویبره در موبایل
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
+            
+            showNotification(`کافی‌نت "${newCafe.name}" با موفقیت ثبت شد`);
+            this.reset();
+            
+            // بازگشت به صفحه اصلی و نمایش کافی‌نت جدید
+            setTimeout(() => {
+                showSection('home');
+                loadHomePage();
+            }, 1500);
+        });
+
+        // بارگذاری سفارشات کافی‌نت (پنل مدیریت)
+        function loadCafeOrders() {
+            const cafeId = parseInt(document.getElementById('admin-cafe-id').value);
+            if (!cafeId) {
+                showNotification('لطفاً شناسه کافی‌نت را وارد کنید');
+                return;
+            }
+            
+            const cafe = cafes.find(c => c.id === cafeId);
+            if (!cafe) {
+                showNotification('کافی‌نت با این شناسه یافت نشد');
+                return;
+            }
+            
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const cafeOrders = orders.filter(order => order.cafeId === cafeId);
+            
+            const container = document.getElementById('admin-orders');
+            
+            if (cafeOrders.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: var(--gray);">
+                        <i class="fas fa-clipboard-list" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                        <p>هیچ سفارشی برای این کافی‌نت ثبت نشده است</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let ordersHTML = '';
+            cafeOrders.forEach(order => {
+                ordersHTML += `
+                    <div class="order-card ${order.completed ? 'completed' : ''}">
+                        <h4 style="font-size: 1.1rem;">سفارش #${order.id.toString().slice(-6)}</h4>
+                        <p style="margin: 0.5rem 0;"><strong>خدمات:</strong> ${order.service}</p>
+                        <p style="margin: 0.5rem 0;"><strong>مبلغ:</strong> ${order.price.toLocaleString()} تومان</p>
+                        <p style="margin: 0.5rem 0;"><strong>زمان:</strong> ${order.timestamp}</p>
+                        <div class="order-actions">
+                            ${!order.completed ? `
+                                <button class="btn btn-success" onclick="completeOrder(${order.id})" style="flex: 1;">
+                                    <i class="fas fa-check"></i> تکمیل شد
+                                </button>
+                            ` : `
+                                <span style="color: var(--success); flex: 1; text-align: center;">
+                                    <i class="fas fa-check-circle"></i> تکمیل شده
+                                </span>
+                            `}
+                            <button class="btn btn-secondary" onclick="contactCustomer(${order.id})" style="flex: 1;">
+                                <i class="fas fa-phone"></i> تماس با مشتری
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = ordersHTML;
+        }
+
+        // تکمیل سفارش
+        function completeOrder(orderId) {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const orderIndex = orders.findIndex(o => o.id === orderId);
+            
+            if (orderIndex !== -1) {
+                orders[orderIndex].completed = true;
+                localStorage.setItem('orders', JSON.stringify(orders));
+                
+                // ویبره تأیید
+                if (navigator.vibrate) {
+                    navigator.vibrate([100, 50, 100]);
+                }
+                
+                showNotification('سفارش به عنوان تکمیل شده علامت‌گذاری شد');
+                loadCafeOrders(); // بازخوانی لیست
+            }
+        }
+
+        // تماس با مشتری (نمایشی)
+        function contactCustomer(orderId) {
+            showNotification('سیستم تماس در نسخه نمایشی فعال نیست');
+            
+            // در نسخه واقعی می‌تواند شماره را بگیرد
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    if (confirm('آیا می‌خواهید شماره مشتری را ببینید؟')) {
+                        showNotification('شماره مشتری: ۰۹۱۲۳۴۵۶۷۸۹');
+                    }
+                }, 300);
+            }
+        }
+
+        // تسویه حساب
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification('سبد خرید خالی است');
+                return;
+            }
+            
+            // تأیید نهایی
+            if (window.innerWidth <= 768 && !confirm(`آیا از ثبت سفارش به مبلغ ${document.getElementById('cart-total-price').textContent} تومان اطمینان دارید؟`)) {
+                return;
+            }
+            
+            // ذخیره سفارشات
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            cart.forEach(item => {
+                orders.push({
+                    id: Date.now() + Math.random(),
+                    ...item,
+                    completed: false
+                });
+            });
+            
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // ویبره موفقیت
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200]);
+            }
+            
+            // خالی کردن سبد خرید
+            cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // بروزرسانی نمایش
+            updateCartCount();
+            updateCartDisplay();
+            toggleCart();
+            
+            const orderCode = Date.now().toString().slice(-6);
+            showNotification(`سفارش شما با موفقیت ثبت شد! کد پیگیری: ${orderCode}`);
+            
+            // بازگشت به صفحه اصلی بعد از 3 ثانیه
+            setTimeout(() => {
+                showSection('home');
+            }, 3000);
+        }
+
+        // نمایش اعلان
+        function showNotification(message, duration = 3000, isHTML = false) {
+            const notification = document.getElementById('notification');
+            
+            if (isHTML) {
+                notification.innerHTML = message;
+            } else {
+                notification.textContent = message;
+            }
+            
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, duration);
+        }
+
+        // تشخیص دستگاه موبایل
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        // مدیریت تغییر اندازه صفحه
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                if (currentSection === 'home') loadHomePage();
+                if (currentSection === 'order') loadOrderPage();
+            }, 250);
+        });
+
+        // راه‌اندازی اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            // ذخیره داده‌های نمونه در localStorage
+            if (!localStorage.getItem('cafenets')) {
+                localStorage.setItem('cafenets', JSON.stringify(cafes));
+            } else {
+                cafes = JSON.parse(localStorage.getItem('cafenets'));
+            }
+            
+            // بارگذاری صفحه اصلی
+            loadHomePage();
+            updateCartCount();
+            
+            // تنظیم فرم ثبت
+            document.getElementById('cafe-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // این تابع قبلاً تعریف شده
+            });
+            
+            // بهبود UX برای موبایل
+            if (isMobile()) {
+                // جلوگیری از زوم در input ها
+                document.querySelectorAll('input, textarea').forEach(el => {
+                    el.addEventListener('focus', function() {
+                        window.scrollTo(0, this.offsetTop - 100);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
